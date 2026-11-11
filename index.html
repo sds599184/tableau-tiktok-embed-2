@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            background: transparent;
+            width: 100%;
+        }
+
+        #tiktok-container {
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+<div id="tiktok-container"></div>
+
+<script>
+    const params = new URLSearchParams(window.location.search);
+    const videoId = params.get("id");
+
+    if (videoId && /^\d+$/.test(videoId)) {
+
+        const embed = document.createElement("blockquote");
+
+        embed.className = "tiktok-embed";
+        embed.setAttribute(
+            "cite",
+            "https://www.tiktok.com/video/" + videoId
+        );
+        embed.setAttribute(
+            "data-video-id",
+            videoId
+        );
+
+        document
+            .getElementById("tiktok-container")
+            .appendChild(embed);
+
+        const script = document.createElement("script");
+        script.src = "https://www.tiktok.com/embed.js";
+        script.async = true;
+
+        document.body.appendChild(script);
+
+    } else {
+        document
+            .getElementById("tiktok-container")
+            .innerText = "No TikTok video specified.";
+    }
+</script>
+
+</body>
+</html>
