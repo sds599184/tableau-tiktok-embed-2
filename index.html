@@ -27,21 +27,23 @@
 
 <script>
     const params = new URLSearchParams(window.location.search);
-    const videoId = params.get("id");
+    const videoUrl = params.get("url");
 
-    if (videoId && /^\d+$/.test(videoId)) {
+    const match = videoUrl
+        ? videoUrl.match(/\/video\/(\d+)/)
+        : null;
+
+    if (videoUrl && match) {
+
+        const videoId = match[1];
 
         const embed = document.createElement("blockquote");
 
         embed.className = "tiktok-embed";
-        embed.setAttribute(
-            "cite",
-            "https://www.tiktok.com/video/" + videoId
-        );
-        embed.setAttribute(
-            "data-video-id",
-            videoId
-        );
+        embed.setAttribute("cite", videoUrl);
+        embed.setAttribute("data-video-id", videoId);
+        embed.style.maxWidth = "605px";
+        embed.style.minWidth = "325px";
 
         document
             .getElementById("tiktok-container")
@@ -54,9 +56,11 @@
         document.body.appendChild(script);
 
     } else {
+
         document
             .getElementById("tiktok-container")
-            .innerText = "No TikTok video specified.";
+            .innerText = "No valid TikTok URL specified.";
+
     }
 </script>
 
